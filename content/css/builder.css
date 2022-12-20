@@ -1,0 +1,153 @@
+body {
+	margin: 0;
+	
+	background-color: #000000;
+}
+
+#table {
+	position: absolute;
+	
+	width: calc( 100% - 4rem );
+	height: calc( 100% - 4rem );
+	
+	margin: 1.5rem;
+	padding: 0.5rem;
+	
+	border-radius: 1rem;
+
+	color: #FFFFFF;
+	background-color: #000026;
+}
+
+.Carpet {
+	position: relative;
+
+	width: 100%;
+	height: calc( 50% - 2.5rem );
+
+	padding: 0.25rem;
+	border-radius: 1rem;
+
+	white-space: nowrap;
+
+	overflow: auto;
+
+	background-color: #242424;
+}
+
+#addSettings {
+	position: absolute;
+	
+	right: 0;
+	bottom: 0;
+	width: min-content;
+	height: min-content;
+}
+
+#addSettings div {
+	white-space: nowrap;
+
+	padding: 0.5rem;
+	cursor: pointer;
+
+	color: #FFFFFF;
+	background-color: #232323;
+}
+
+#addSettings div:hover {
+	background-color: #343434;
+}
+
+#addSettings input {
+	padding: 0.25rem;
+}
+
+.Card {
+	position: relative;
+	display: inline-block;
+	
+	width: 10%;
+}
+
+.Card .Card {
+	position: absolute;
+
+	top: 2rem;
+	width: 100%;
+}
+
+.CardIMG {
+	position: absolute;
+	
+	width: 100%;
+}
+
+.CardNumber {
+	position: absolute;
+
+	top: 0;
+	right: 0;
+
+	width: min-content;
+	max-width: 50%;
+	height: 1rem;
+}
+
+.CardNumber span {
+	display: inline;
+
+	padding: 0 0.2rem 0 0.2rem;
+
+	border-radius: 0.1rem;
+
+	cursor: pointer;
+
+	color: black;
+	background-color: #FFFFFF;
+}
+
+.CardNumber span:hover {
+	background-color: #EEEEEE;
+}
+
+.Utility {
+	position: absolute;
+
+	left: 0;
+	bottom: 0;
+	width: min-content;
+
+	white-space: nowrap;
+}
+
+.Utility div {
+	padding: 0.5rem;
+	cursor: pointer;
+
+	color: #FFFFFF;
+	background-color: #242424;
+}
+
+.Utility div:hover {
+	background-color: #454545;
+}
+
+#showCard {
+	position: absolute;
+	pointer-events: none;
+
+	height: 50%;
+}
+
+#showBack {
+	position: absolute;
+	pointer-events: none;
+
+	top: 0;
+	right: 0;
+	height: 50%;
+
+	display: none;
+
+	background-color: black;
+}

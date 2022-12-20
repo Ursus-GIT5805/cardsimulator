@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Cardsimulator</title>
+	</head>
+
+	<body>
+		<div id="table">
+			<div id="selcards" draggable="true"></div>
+		</div>
+
+		<div class="BrowserWindow" style="bottom: 20%;" id="browser">
+			<div class="HideButton" onclick="closeBrowser()">Close</div>
+			<div class="BrowserContent" id="browsercontent"></div>
+		</div>
+
+		<div id="hand">
+			<div class="HideButton" onclick="toggleHand()">Hand</div>
+			<div id="handcontainer"></div>
+		</div>
+		
+		<div id="enemyInfo">
+			<a>Enemy cards: <span id="Ecardnum">0</span></a>
+		</div>
+
+		<div class="Dropdown" id="contextMenu"></div>
+
+		<div id="Utility">
+			<div id="UtilityToggle">Actions</div>
+			<a id="Utils" style="display: none;">
+				<div onclick="createCounter('table')">Create Counter</div>
+				<div onclick="createPile('table')">Create Pile</div>
+				<div onclick="createZone('table')">Create Zone</div>
+				<div onclick="toggleRandomWindow()">Random</div>
+				<div onclick="toggleManual()">Manual</div>
+			</a>
+		</div>
+
+		<div id="chatContainer">
+			<div id="chatWindow">
+				<div id="chatBox">
+					<div id="chatComponents">
+						<div id="chatHistory">
+							<div style="color: #AAAAAA;">This is the chat. Use it to communicate with the other player..</div>
+						</div>
+						<div id="chatInput" contentEditable placeholder="Message"></div>
+					</div>
+				</div>
+			</div>
+			<div id="chatButton">Chat</div>
+		</div>
+	</body>
+
+	<div id="startWindow">
+		<h2><u>Cardsimulator</u></h2>
+		<p>
+			Choose deck: <input id="deckinput" type="file">
+			<a id="deckWarning" style="color: red; display: none;">Select a deck!</a>
+		</p>
+
+		<p>
+			<input id="peerID" placeholder="Another players ID">
+		</p>
+		<div id="contID">
+			Your id: <h3 id="yourID"></h3>
+			<button onclick="copyToClip('yourID')">Copy ID</button>
+		</div>
+		<div id="startButtons">
+			<div class="StartButton" onclick="startConnection()">Connect</div>
+			<div class="StartButton" onclick="displayID()">Get ID</div>
+		</div>
+	</div>
+
+	<div id="manualWindow">
+		<p><u>Manual</u></p>
+		<p><b>Right Click:</b> Dropdown</p>
+		<p><b>Ctrl+Left Click:</b> Set a pin</p>
+		<p><b>F1:</b> Clear all pins</p>
+		<p><b>Shift+Drag on pile:</b> Put cards on bottom of Pile</p>
+		<p><b>Ctrl+x/Ctrl+Delete:</b> Delete selected counter</p>
+	</div>
+
+	<img id="showCard">
+	<div id="selectArea"></div>
+
+	<div id="randomWindow">
+		<h3><u>Random</u></h3>
+		<div>
+			<a>Result</a>
+			<h2 id="randResult">3</h2>
+		</div>
+		<button onclick="roll()">Roll</button>
+		<div style="width: max-content;">
+			<a>Min: </a>
+			<input type="number" min="1" value="1" style="width: 3rem;" id="randMin">
+			<a>Max: </a>
+			<input type="number" min="1" value="6" style="width: 3rem;" id="randMax">
+		</div>
+		<button onclick="toggleRandomWindow()">Close</button>
+	</div>
+
+	<div style="display: none;">
+		<div id="cardMenu">
+			<div onclick="rotate(90)">Rotate 90&deg;</div>
+			<div onclick="rotate(-90)">Rotate -90&deg;</div>
+			<div onclick="toggleFacedown()">Toggle facedown</div>
+			<div onclick="togglePeek()">Peek at card</div>
+		</div>
+
+		<div id="selMenu">
+			<div onclick="selToggleFacedown()">Toggle all facedown</div>
+			<div onclick="selTogglePeek()">Peek at all cards</div>
+		</div>
+
+		<div id="displaycardMenu">
+			<div onclick="toggleFacedown()">Toggle facedown</div>
+			<div onclick="togglePeek()">Peek at card</div>
+		</div>
+
+		<div id="tableMenu">
+			<div onclick="removePins()">Remove Pins</div>
+		</div>
+
+		<div id="pileMenu">
+			<div onclick="draw()">Draw</div>
+			<div onclick="search()">Search</div>
+			<div onclick="shuffle()">Shuffle</div>
+			<div onclick="playCard(true)">Play top card</div>
+			<div onclick="playCard(false)">Play bottom card</div>
+			<div onclick="togglePileFace()">Toggle facedown</div>
+		</div>
+
+		<div id="zoneMenu">
+			<div>Color: <input type="color" id="zonecol"></div>
+			<div onclick="removeZone()">Remove zone</div>
+		</div>
+	</div>
+
+	<link rel="stylesheet" href="css/game.css">
+	<link rel="stylesheet" href="css/chat.css">
+	<link rel="stylesheet" href="css/dropdown.css">
+	<script src="js/game.js"></script>
+	<script src="js/card.js"></script>
+	<script src="js/hand.js"></script>
+	<script src="js/dropdown.js"></script>
+	<script src="js/deckloader.js"></script>
+	<script src="js/random.js"></script>
+	<script src="js/utils.js"></script>
+
+	<script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+	<script src="js/netw.js"></script>
+</html>

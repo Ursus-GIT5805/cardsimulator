@@ -1,7 +1,7 @@
 function getCards( ele, deck ){
     if( deck[ ele.children[0].src ] == null ) deck[ ele.children[0].src ] = 0;
     deck[ ele.children[0].src ] +=  parseInt( ele.children[1].children[1].innerHTML );
-    if( 2 < ele.children.length ) getCards( ele.children[2] );
+    if( 2 < ele.children.length ) getCards( ele.children[2], deck );
 }
 
 function saveDeck(){

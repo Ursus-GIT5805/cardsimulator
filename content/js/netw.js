@@ -309,11 +309,6 @@ function initPeer(){
         conn = c;
         setEvents();
         console.log("Other player connected!");
-        console.log( conn.id );
-    });
-
-    peer.on('disconnect', function(){
-        console.log("Player disconneted!");
     });
 }
 
@@ -323,11 +318,14 @@ function setEvents(){
         console.log( json );
         window[ "f" + json['type'] ]( json );
     });
+
+    conn.on('close', function(){
+        alert("Your opponent has disconnected! You ought to reload this page.");
+    });
 }
 
 function send(json){
     if(conn == null) return;
-
     conn.send( JSON.stringify( json ) );
 }
 

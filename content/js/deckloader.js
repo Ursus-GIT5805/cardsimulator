@@ -31,7 +31,7 @@ function saveDeck(){
     download.click();
 }
 
-function uploadDeck( handler ){
+function loadDeck( handler ){
     let inp = document.createElement('input');
     inp.type = "file";
 

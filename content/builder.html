@@ -6,25 +6,33 @@
 	
 	<body>
 		<div id="table">
-			<u>Deck cards</u>
+			<u>Deck cards (Cards: <a id=car0c>0</a>)</u>
 			<div class="Carpet" id="car0"></div>
-			<u>Sideboard cards</u>
+			<u>Side cards (Cards: <a id=car1c>0</a>)</u>
 			<div class="Carpet" id="car1"></div>
 
 			<div class="Utility">
 				<div onclick="saveDeck()">Save Deck</div>
-				<div onclick="uploadDeck(setCards)">Upload Deck</div>
+				<div onclick="loadDeck(setCards)">Load Deck</div>
+				<div onclick="toggleCBack()">Set card background</div>
 			</div>
 
 			<div id="addSettings">
-				<input type="text" id="urlBack" placeholder="Url to card background">
 				<input type="text" id="urlInput" placeholder="Url to an image">
 				<div onclick="addCard()">Add card from URL</div>
 			</div>
 		</div>
 
+		<div id="cbackWindow">
+			<h3><u>Card background</u></h3>
+			<div>
+				<img id="showBack">
+			</div>
+			<input type="text" id="urlBack" placeholder="Url for card background">
+			<div class="Button" onclick="toggleCBack()">Close</div>
+		</div>
+
 		<img id="showCard">
-		<img id="showBack">
 	</body>
 	
 	<link rel="stylesheet" href="css/builder.css">

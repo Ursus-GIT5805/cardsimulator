@@ -139,15 +139,53 @@ body {
 	height: 50%;
 }
 
-#showBack {
+#cbackWindow {
 	position: absolute;
-	pointer-events: none;
 
-	top: 0;
-	right: 0;
-	height: 50%;
+	left: 50%;
+	top: 50%;
+	height: min-content;
+	max-width: 50%;
+	max-height: 70%;
 
+	overflow-y: scroll
+
+	align-items: center;
+	text-align: center;
+
+	padding: 1rem;
+	transform: translateX(-50%) translateY(-50%);
 	display: none;
 
-	background-color: black;
+	border-radius: 0.5rem;
+	background-color: #DDDDDD;
+}
+
+#cbackWindow .Button {
+	position: relative;
+
+	padding: 0.5rem;
+	border-radius: 3px;
+
+	user-select: none;
+	cursor: pointer;
+
+
+	color: #FFFFFF;
+	background-color: #000033;
+}
+
+#cbackWindow .Button:hover {
+	background-color: #000088;
+}
+
+#showBack {
+	position: relative;
+	max-height: 20rem;
+
+	border-style: solid;
+	border-width: 2px;
+	border-color: #000000;
+	border-radius: 1px;
+
 }

@@ -1,3 +1,4 @@
+var carCount = [];
 var cardCount = 0;
 
 function allowDrop(e){ e.preventDefault(); }
@@ -32,16 +33,22 @@ function createCard( src, container, num=1 ){
 
 	add.onclick = function(e){
 		count.innerHTML = (parseInt( count.innerHTML ) + 1);
-	}
+
+		carCount[ getCar(ele) ] += 1;
+		updateCarCount();
+	};
 
 	min.onclick = function(e){
 		count.innerHTML = (parseInt( count.innerHTML ) - 1);
+
+		carCount[ getCar(ele) ] -= 1;
+		updateCarCount();
 
 		if( 0 < parseInt( count.innerHTML ) ) return;
 		if( 2 < ele.children.length ) ele.parentNode.appendChild( ele.children[2] );
 
 		ele.parentNode.removeChild( ele );
-	}
+	};
 
 	let wrap = document.createElement('div');
 	wrap.classList.add("CardNumber");
@@ -61,7 +68,14 @@ function createCard( src, container, num=1 ){
 		e.stopPropagation();
 		if( 2 < ele.children.length ) return;
 		let id = e.dataTransfer.getData("dragID");
-		ele.appendChild( document.getElementById(id) );
+
+		let dEle = document.getElementById(id)
+		let num = parseInt( dEle.children[1].children[1].innerHTML );
+
+		carCount[ getCar(dEle) ] -= num;
+		carCount[ getCar(ele) ] += num;
+		updateCarCount();
+		ele.appendChild( dEle );
 	}
 
 	img.onmouseenter = function(e){
@@ -77,28 +91,49 @@ function createCard( src, container, num=1 ){
 	ele.appendChild( img );
 	ele.appendChild( wrap );
 	document.getElementById( container ).appendChild( ele );
+
+	carCount[ getCar(ele) ] += num;
+	updateCarCount();
 }
 
 function setCards( deck, side, back ){
-    document.getElementById("car0").innerHTML = "";
-    document.getElementById("car1").innerHTML = "";
-    for( let k in deck ) createCard( k, "car0", deck[k] );
-    for( let k in side ) createCard( k, "car1", side[k] );
+	document.getElementById("car0").innerHTML = "";
+	document.getElementById("car1").innerHTML = "";
+	for(let i = 0 ; i < carCount.length ; ++i) carCount[i] = 0;
+	for( let k in deck ) createCard( k, "car0", deck[k] );
+	for( let k in side ) createCard( k, "car1", side[k] );
 
 	document.getElementById("urlBack").value = back;
 	document.getElementById("showBack").src = document.getElementById("urlBack").value;
+	updateCarCount();
 }
 
-document.getElementById("urlBack").onmouseenter = function(e){
-	document.getElementById("showBack").style.display = "block";
+function updateCarCount(){
+		for(let i = 0 ; i < carCount.length ; ++i){
+			let ele = document.getElementById("car" + i + "c");
+			if(ele == null) continue;
+			ele.innerHTML = carCount[i];
+		}
 }
 
-document.getElementById("urlBack").onmouseleave = function(e){
-	document.getElementById("showBack").style.display = "none";
+function getCar( ele ){
+	for(let i = 0 ; i < carCount.length ; ++i){
+		if( document.getElementById("car"+i).contains(ele) ) return i;
+	}
+	return -1;
+}
+
+function toggleCBack(){
+	let ele = document.getElementById("cbackWindow");
+	ele.style.display = ["none", "block"][ +(ele.style.display != "block") ];
 }
 
 document.getElementById("urlBack").onkeyup = function(e){
 	document.getElementById("showBack").src = document.getElementById("urlBack").value;
+}
+
+document.getElementById("showBack").onerror = function(e){
+	this.src = "img/not_found.svg";
 }
 
 window.onmousemove = function(e){
@@ -125,11 +160,19 @@ window.onload = function(e){
 		let ele = document.getElementById("car" + i++);
 		if(ele == null) break;
 
+		carCount.push(0);
+
 		ele.ondragover = allowDrop;
 
 		ele.ondrop = function(e){
 			let id = e.dataTransfer.getData("dragID");
-			ele.appendChild( document.getElementById(id) );
+			let dEle = document.getElementById(id)
+			let num = parseInt( dEle.children[1].children[1].innerHTML );
+
+			carCount[ getCar(dEle) ] -= num;
+			carCount[ getCar(ele) ] += num;
+			updateCarCount();
+			ele.appendChild( dEle );
 		}
 	}
 

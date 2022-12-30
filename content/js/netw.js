@@ -212,7 +212,14 @@ function sendDeck( id ){
 function addDeck(deck, side, back, id){
     decks[id] = [ deck, side ];
     backs[id] = back;
-    console.log(decks);
+
+    let img = new Image();
+    img.onerror = function(e){
+        backs[id] = "img/not_found.svg";
+        for(let i = 0 ; i < piles.length ; ++i) piles[i].updateIMG();
+    }
+    img.src = back;
+
     if( decks[0].length > 0 && decks[1].length > 0 ) createDecks();
 }
 
@@ -266,12 +273,14 @@ function displayID(){
     document.getElementById("peerID").style.display = "none";
     document.getElementById("startButtons").style.display = "none";
     document.getElementById("contID").style.display = "block";
-    document.getElementById("yourID").innerHTML = peer.id;
+    document.getElementById("yourID").innerHTML = compressPeerID(peer.id);
+    console.log(peer.id);
 }
 
 // Connect to other player's ID
 function connect(){
-    let id = document.getElementById("peerID").value;
+    let id = encodePeerID(document.getElementById("peerID").value);
+    console.log(id);
     if( id == "" ) return;
 
     conn = peer.connect( id, {

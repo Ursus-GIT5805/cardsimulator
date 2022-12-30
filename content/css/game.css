@@ -27,6 +27,8 @@ body {
 
 	resize: both;
 	overflow: hidden;
+
+	background-color: #FFFFFF;
 }
 
 #selcards {
@@ -275,6 +277,10 @@ body {
 	position: relateve;
 
 	height: min-content;
+}
+
+#yourID {
+	white-space: nowrap;
 }
 
 .StartButton {

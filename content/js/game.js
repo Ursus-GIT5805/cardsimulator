@@ -100,6 +100,14 @@ function createCard( cardID, container ){
 		this.src = "img/not_found.svg";
 	}
 
+	ele.onclick = function(e){
+		let cbox = ele.getBoundingClientRect();
+		if( e.pageX < cbox.left + 16 || cbox.right < e.pageX + 16 || e.pageY < cbox.top + 16 || cbox.bottom < e.pageY + 16 ) return;
+
+		cCard = cardID;
+		rotate(90);
+	}
+
 	ele.ondragover = allowDrop;
 	
 	ele.ondrop = function(e){

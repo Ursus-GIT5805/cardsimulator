@@ -31,6 +31,23 @@ body {
 	background-color: #FFFFFF;
 }
 
+.Card .Pin {
+	left: 0 !important;
+	top: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+
+	transform: none !important;
+	box-sizing: border-box !important;
+
+	border-width: 0.5rem !important;
+	border-style: solid !important;
+	border-radius: 0 !important;
+	border-color: #FFFF00 !important;
+
+	background-color: #00000000 !important;
+}
+
 #selcards {
 	position: absolute;
 	display: block;
@@ -274,7 +291,7 @@ body {
 }
 
 #startWindow div {
-	position: relateve;
+	position: relative;
 
 	height: min-content;
 }
@@ -344,6 +361,8 @@ body {
 	height: 1rem;
 
 	border-radius: 100%;
+
+	pointer-events: none;
 
 	transform: translateX(-50%) translateY(-50%);
 

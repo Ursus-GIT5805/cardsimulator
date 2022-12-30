@@ -103,6 +103,7 @@ function createCard( cardID, container ){
 	ele.onclick = function(e){
 		let cbox = ele.getBoundingClientRect();
 		if( e.pageX < cbox.left + 16 || cbox.right < e.pageX + 16 || e.pageY < cbox.top + 16 || cbox.bottom < e.pageY + 16 ) return;
+		if(e.target != ele) return;
 
 		cCard = cardID;
 		rotate(90);
@@ -487,7 +488,7 @@ document.getElementById("showCard").ondropover = function(e){
 
 window.onkeydown = function(e){
 	if( e.which == 112 ) removePins();
-	if( e.which ==  84 ) openChat(true);
+	if( e.which == 113 ) openChat(true);
 	if( e.which ==  27 ) openChat(false);
 }
 

@@ -120,7 +120,8 @@ body {
 .Counter {
 	position: absolute;
 	
-	width: 5%;
+	width: 10rem;
+	height: 10rem;
 
 	padding: 0;
 	margin: 0;
@@ -240,6 +241,26 @@ body {
 
 	transform: translateX(-50%);
 }
+
+#browserNum {
+	position: absolute;
+
+	left: 0;
+	bottom: 0;
+	width: min-content;
+	height: calc( 100% + 1rem );
+
+	white-space: nowrap;
+
+	padding: 0.5rem;
+
+	border-radius: 0.5rem;
+	font-weight: bold;
+
+	color: #FFFFFF;
+	background-color: #283148;
+}
+
 #Utility {
 	position: absolute;
 	

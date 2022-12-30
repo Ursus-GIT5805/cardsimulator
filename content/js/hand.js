@@ -14,15 +14,15 @@ document.getElementById("hand").ondrop = function(e){
 	if( e.dataTransfer.getData("dragID") == "selcards" ){
 		let ele = document.getElementById("selcards");
 
-		for(let i = 0 ; i < ele.children.length ; ++i){
-			let id = parseID( ele.children[i].id );
+		while(ele.children.length > 0){
+			let id = parseID( ele.children[0].id );
 
 			send({
 				'type': 'REMOVE',
 				'id': id
 			});
 
-			ele.removeChild( ele.children[i] );
+			ele.removeChild( ele.children[0] );
 			if( cards[id].facedown ){
 				let bef = cCard;
 				cCard = id;
@@ -30,7 +30,6 @@ document.getElementById("hand").ondrop = function(e){
 				cCard = bef;
 			}
 			createDisplayCard( id, "handcontainer" );
-			i--;
 		}
 		return;
 	}

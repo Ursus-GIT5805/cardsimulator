@@ -117,15 +117,17 @@ class Pile {
 			if( dropID == "selcards" ){
 				let sel = document.getElementById("selcards");
 
-				for(let i = 0 ; i < sel.children.length ; ++i){
-					let cs = getStackCards( sel.children[i].id );
+				while(sel.children.length > 0){
+					let id = sel.children[0].id;
+					let cs = getStackCards( id );
+					sel.removeChild( sel.children[0] );
 					for(let i = 0 ; i < cs.length ; ++i) piles[ ID ].push( cs[i], !e.shiftKey );
 
 					send({
 						'type': 'INPILE',
 						'pile': ID,
 						'top': !e.shiftKey,
-						'id': sel.children[i].id
+						'id': id
 					});
 				}
 				sel.innerHTML = "";
@@ -210,6 +212,10 @@ function removeCard( cardID ){
 
 var openP = -1;
 
+function updateBrowserCardnum(){
+	document.getElementById("browserNum").innerHTML = "Cards: " + piles[ openP ].cards.length;
+}
+
 function closeBrowser(){
 	if(openP == -1) return;
 
@@ -229,30 +235,35 @@ function closeBrowser(){
 }
 
 function pushToBrowser( cardID, pileID, top=true ){
-	if( piles[pileID].facedown ) cards[ cardID ].facedown = false;
+	if( piles[openP].facedown ) cards[ cardID ].facedown = false;
 	createDisplayCard( cardID, "browsercontent", top );
+	updateBrowserCardnum();
 
-	document.getElementById( "c" + cardID + "img" ).onclick = function(e){
+	let ele = document.getElementById( "c" + cardID + "img" );
+
+	ele.onclick = function(e){
 		send({
 			'type': 'PLAY',
 			'id': cardID,
-			'pile': pileID
+			'pile': openP
 		});
 		send({
 			'type': "SETFACE",
 			'id': cardID,
 			'facedown': cards[cardID].facedown
 		});
-		this.parentNode.removeChild(this);
+		ele.parentNode.removeChild(ele);
 		createCard( cardID, "table" );
-		piles[ pileID ].erase( cardID );
+		piles[ openP ].erase( cardID );
+		updateBrowserCardnum();
 	}
 }
 
 function openPile( pileID ){
 	openP = pileID;
 	document.getElementById("browsercontent").innerHTML = ""; //Clear all cards currently displayed
-	
+	updateBrowserCardnum();
+
 	for(let i = 0 ; i < piles[pileID].cards.length ; ++i){
 		const c = piles[pileID].cards[i];
 		pushToBrowser( c, pileID );

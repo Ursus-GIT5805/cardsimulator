@@ -219,9 +219,10 @@ function selDoFun( fun ){
 	selForEach(f);
 }
 
-function selToggleFacedown(){
-	selDoFun( toggleFacedown );
-}
-function selTogglePeek(){
-	selDoFun( togglePeek );
+function selRotate(deg){
+	let f = function( ele ){
+		cCard = parseID( ele.id );
+		rotate(deg);
+	};
+	selForEach(f);
 }

@@ -32,18 +32,15 @@ function setScaleProp( ele_id, prop ){
 	if(ele == null) return;
 
 	let f = function(){
-		let h = ele.clientHeight;
 		if(ele.parentNode == null) return;
-
-		let scw = h * prop / ele.parentNode.clientWidth;
-		let sch = h / ele.parentNode.clientHeight;
-
-		ele.style.width = Math.min(scw*100, 100) + "%";
-		ele.style.height = Math.min(sch*100, 100) + "%";
+		let scw = ele.clientHeight * prop / ele.parentNode.clientWidth;
+		ele.style.width  = Math.min(scw*100, 100) + "%";
 	}
 
 	ele.onmouseup = function(e){
 		if(e.button != 0) return;
+		let sch = ele.clientHeight / ele.parentNode.clientHeight;
+		ele.style.height = Math.min(sch*100, 100) + "%";
 
 		send({
 			'type': 'RESIZE',
@@ -102,7 +99,6 @@ function createCard( cardID, container ){
 	img.onerror = function(e){
 		this.src = "img/not_found.svg";
 	}
-
 
 	ele.ondragover = allowDrop;
 	
@@ -494,12 +490,18 @@ function mergeToTable(ele_id){
 	let tbox = table.getBoundingClientRect();
 	let tw = tbox.right - tbox.left;
 	let th = tbox.bottom - tbox.top;
+
+	let bef = ele.style.transform;
+	ele.style.transform = "";
+
 	let cbox = ele.getBoundingClientRect();
 
 	ele.style.left = (cbox.left - tbox.left) * 100 / tw + "%";
 	ele.style.top = (cbox.top - tbox.top) * 100 / th + "%";
 	ele.style.width = (cbox.right - cbox.left) * 100 / tw + "%";
 	ele.style.height = (cbox.bottom - cbox.top) * 100 / th + "%";
+
+	ele.style.transform = bef;
 
 	table.appendChild( ele );
 }
@@ -609,11 +611,16 @@ window.onmouseup = function(e){
 		let sbox = sel.getBoundingClientRect();
 
 		if( !(cbox.right < abox.left || abox.right < cbox.left || cbox.bottom < abox.top || abox.bottom < cbox.top) ){
+			let bef = child.style.transform;
+			child.style.transform = "";
+			cbox = child.getBoundingClientRect();
+
 			child.style.left = (cbox.left - sbox.left) * 100 / (sbox.right - sbox.left) + "%";
 			child.style.top = (cbox.top - sbox.top) * 100 / (sbox.bottom - sbox.top) + "%";
 			child.style.width = (cbox.right - cbox.left) * 100 / (sbox.right - sbox.left) + "%";
 			child.style.height = (cbox.bottom - cbox.top) * 100 / (sbox.bottom - sbox.top) + "%";
 
+			child.style.transform = bef;
 			sel.appendChild( child );
 			i--;
 		}

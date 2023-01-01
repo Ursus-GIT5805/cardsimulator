@@ -664,6 +664,10 @@ window.onmousedown = function(e){
 }
 
 window.onmousemove = function(e){
+	let tip = document.getElementById("tooltip");
+	tip.style.left = e.pageX + "px";
+	tip.style.bottom = (document.documentElement.clientHeight - e.pageY) + "px";
+
 	if(mX < 0 || mY < 0) return;
 
 	let area = document.getElementById("selectArea");

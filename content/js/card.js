@@ -102,6 +102,7 @@ class Pile {
 		img.classList.add("CardIMG");
 		img.id = "pile" + this.id + "img";
 		img.style.display = "none";
+		img.pointerEvents = "none";
 		
 		// ---
 		
@@ -156,10 +157,16 @@ class Pile {
 			return false;
 		}
 
-		img.ondrop = ele.ondrop;
-		img.oncontextmenu = ele.oncontextmenu;
-		img.onclick = ele.onclick;
-		ele.ondropover = img.ondropover = allowDrop;
+		ele.onmouseenter = function(e){
+			let tooltip = document.getElementById("tooltip");
+			tooltip.style.visibility = "visible";
+			tooltip.innerHTML = "Cards: " + piles[ID].cards.length;
+		}
+		ele.onmouseleave = function(e){
+			document.getElementById("tooltip").style.visibility = "hidden";
+		}
+
+		ele.ondropover = allowDrop;
 
 		// ---
 		

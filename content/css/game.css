@@ -1,4 +1,5 @@
 body {
+	overflow: hidden;
 	background-color: #000000;
 }
 
@@ -550,4 +551,24 @@ body {
 
 	color: #000000;
 	background-color: #CCCCCC;
+}
+
+#tooltip {
+	position: absolute;
+
+	height: min-content;
+	white-space: nowrap;
+
+	padding: 0.5rem;
+	border-radius: 0.125rem;
+	font-size: 0.75rem;
+
+	transform: translateX(-50%);
+
+	pointer-events: none;
+	visibility: hidden;
+
+	color: #FFFFFF;
+	background-color: #000000;
+	z-index: 1;
 }

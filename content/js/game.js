@@ -100,7 +100,8 @@ function createCard( cardID, container ){
 
 	ele.onclick = function(e){
 		let cbox = ele.getBoundingClientRect();
-		if( e.pageX < cbox.left + 16 || cbox.right < e.pageX + 16 || e.pageY < cbox.top + 16 || cbox.bottom < e.pageY + 16 ) return;
+		let offs = Math.min( (ele.right - ele.left) / 10, (ele.bottom - ele.top) / 10 );
+		if( e.pageX < cbox.left + offs || cbox.right < e.pageX + offs || e.pageY < cbox.top + offs || cbox.bottom < e.pageY + offs ) return;
 		if(e.target.id != ele.id + "img") return;
 
 		cCard = cardID;
@@ -580,6 +581,10 @@ document.getElementById("showCard").onmouseover = function(e){
 document.getElementById("showCard").ondropover = function(e){
 	e.preventDefault();
 	document.getElementById("showCard").style.display = "none";
+}
+
+document.getElementById("enemyInfo").onanimationend = function(e){
+	this.style.animationName = "none";
 }
 
 //---

@@ -47,6 +47,8 @@ body {
 	border-radius: 0 !important;
 	border-color: #FFFF00 !important;
 
+	animation-name: none !important;
+
 	background-color: #00000000 !important;
 }
 
@@ -85,7 +87,7 @@ body {
 
 	box-sizing: border-box;
 
-	border-width: 1px;
+	border-width: 0.15rem;
 	border-style: solid;
 	border-color: #FFFFFF;
 
@@ -391,7 +393,22 @@ body {
 
 	transform: translateX(-50%) translateY(-50%);
 
+	animation-name: PinDrop;
+	animation-duration: 100ms;
+	animation-iteration-count: 1;
+
 	background-color: #FF0000;
+}
+
+@keyframes PinDrop {
+	from {
+		width: 20rem;
+		height: 20rem;
+	}
+	to {
+		width: 1rem;
+		height: 1rem;
+	}
 }
 
 #enemyInfo {
@@ -407,8 +424,17 @@ body {
 
 	display: none;
 
+	animation-name: none;
+	animation-duration: 250ms;
+	animation-iteration-count: 1;
+
 	color: #FFFFFF;
 	background-color: #333333;
+}
+
+@keyframes CardNumChange {
+	from { background-color: #BBBBBB; }
+	to { background-color: #333333; }
 }
 
 #enemyInfo a {

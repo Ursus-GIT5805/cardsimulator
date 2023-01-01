@@ -145,6 +145,7 @@ function fREMPINS( data ){
 
 function fHANDSIZE( data ){
     document.getElementById("Ecardnum").innerHTML = data['size'];
+    document.getElementById("enemyInfo").style.animationName = "CardNumChange";
 }
 
 function fOPENPILE( data ){

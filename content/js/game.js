@@ -1,5 +1,3 @@
-var counter = 0;
-
 function copyToClip( ele_id ){
 	navigator.clipboard.writeText( document.getElementById( ele_id ).innerHTML );
 }
@@ -103,10 +101,11 @@ function createCard( cardID, container ){
 	ele.onclick = function(e){
 		let cbox = ele.getBoundingClientRect();
 		if( e.pageX < cbox.left + 16 || cbox.right < e.pageX + 16 || e.pageY < cbox.top + 16 || cbox.bottom < e.pageY + 16 ) return;
-		if(e.target != ele) return;
+		if(e.target.id != ele.id + "img") return;
 
 		cCard = cardID;
-		rotate(90);
+		if( ele.style.transform == "rotate(90deg)" ) rotate(-90);
+		else rotate(90);
 	}
 
 	ele.ondragover = allowDrop;
@@ -217,12 +216,13 @@ function createDisplayCard( cardID, container, top=true ){
 	}
 }
 
+var counter = 0;
 function createCounter( container, doSend=true ){
 	let ele = document.createElement('textarea');
 	ele.id = "count" + counter++;
 	ele.classList.add( "Counter" );
-	
-	ele.innerHTML = "Enter some Text";
+
+	ele.placeholder = "Enter some Text";
 
 	ele.onkeydown = function(e){
 		if( e.ctrlKey && (e.which == 88 || e.which == 46) ){
@@ -282,8 +282,8 @@ function createZone( container, doSend=true ){
 	ele.style.backgroundColor = "#FFFFFF";
 
 	ele.onmouseup = function(e){
-		ele.style.width = ele.clientWidth*100 / ele.parentNode.clientWidth + "%";
-		ele.style.height = ele.clientHeight*100 / ele.parentNode.clientHeight + "%";
+		ele.style.width = Math.min(ele.clientWidth*100 / ele.parentNode.clientWidth, 100) + "%";
+		ele.style.height = Math.min(ele.clientHeight*100 / ele.parentNode.clientHeight, 100) + "%";
 
 		send({
 			'type': 'RESIZE',
@@ -343,6 +343,104 @@ function createPile( container, doSend=true ){
 		'left': 0,
 		'top': 0,
 		'id': "pile" + (piles[piles.length-1].id),
+		'parent': "table"
+	});
+}
+
+var prbuttons = 0;
+
+function togglePrio( ele_id, doSend=true ){
+	let ele = document.getElementById( ele_id );
+	if(ele == null && ele_id.indexOf("prbutton") == 0) return;
+
+	let cur = +( ele.children[0].style.pointerEvents != "none" );
+
+	for(let i = 0 ; i < 2 ; ++i){
+		ele.children[i].style.backgroundColor = ["#545454", "#CCCCCC"][ +(cur == i) ];
+		ele.children[i].style.pointerEvents = ["none", "auto"][ +(cur == i) ];
+	}
+
+	if(!doSend) return;
+
+	send({
+		'type': 'TOGGLEPRIORITY',
+		'id': ele_id
+	});
+}
+
+function createPriorityButton( container, yourPrio, doSend=true ){
+	const ID = prbuttons++;
+
+	let ele = document.createElement('div');
+	ele.classList.add("PriorityButton");
+	ele.id = "pbutton" + ID;
+
+	for(let i = 0 ; i < 2 ; ++i){
+		let div = document.createElement('div');
+		div.style.top = ["", "50%"][i];
+
+		let span = document.createElement('span');
+		span.classList.add("centerXY");
+		span.innerHTML = ["Opponent's", "Your"][i] + " priority";
+
+		if(i == +(!yourPrio)){
+			div.style.backgroundColor = "#545454";
+			div.style.pointerEvents = "none";
+		}
+
+		div.onmouseenter = function(e){
+			if(this.style.pointerEvents == "none") return;
+			this.style.backgroundColor = "#BBBBBB";
+		}
+		div.onmouseleave = function(e){
+			if(this.style.pointerEvents == "none") return;
+			this.style.backgroundColor = "#CCCCCC";
+		}
+
+		div.appendChild(span);
+		ele.appendChild(div);
+	}
+
+	let purpose = document.createElement('input');
+	purpose.type = "text";
+	purpose.classList.add("PriorityPurpose");
+	purpose.id = "priopurpose" + ID;
+
+	purpose.onchange = function(e){
+		send({
+			'type': 'BUTTONPURPOSE',
+			'id': purpose.id,
+			'content': purpose.value
+		});
+	}
+
+	ele.children[1].onclick = function(e){
+		togglePrio(ele.id);
+	}
+
+	ele.oncontextmenu = function(e){
+		e.stopPropagation();
+		cPButton = ID;
+		displayBox( "pbuttonMenu", e );
+		return false;
+	}
+
+	ele.appendChild(purpose);
+	document.getElementById(container).appendChild(ele);
+
+	setMovable( ele.id );
+	setScaleProp( ele.id, 635 / 889 );
+
+	if( !doSend ) return;
+
+	send({
+		'type': 'PRIORITYBUTTON'
+	});
+	send({
+		'type': 'MOVE',
+		'left': 0,
+		'top': 0,
+		'id': ele.id,
 		'parent': "table"
 	});
 }

@@ -182,6 +182,24 @@ function fCHATMSG( data ){
     openChat(true);
 }
 
+function fPRIORITYBUTTON( data ){
+    createPriorityButton( "table", false, false );
+}
+
+function fBUTTONPURPOSE( data ){
+    if(data['id'].indexOf("priopurpose") != 0) return;
+    document.getElementById(data['id']).value = data['content'];
+}
+
+function fTOGGLEPRIORITY( data ){
+    togglePrio( data['id'], false );
+}
+
+function fREMPRIORITYBUTTON( data ){
+    cPButton = data['id'];
+    removePriorityButton(false);
+}
+
 // ---
 
 var peer = null;

@@ -31,6 +31,7 @@
 			<a id="Utils" style="display: none;">
 				<div onclick="createCounter('table')">Create Counter</div>
 				<div onclick="createPile('table')">Create Pile</div>
+				<div onclick="createPriorityButton('table', true)">Create Button</div>
 				<div onclick="createZone('table')">Create Zone</div>
 				<div onclick="toggleRandomWindow()">Random</div>
 				<div onclick="toggleManual()">Manual</div>
@@ -132,6 +133,10 @@
 			<div onclick="playCard(true)">Play top card</div>
 			<div onclick="playCard(false)">Play bottom card</div>
 			<div onclick="togglePileFace()">Toggle facedown</div>
+		</div>
+
+		<div id="pbuttonMenu">
+			<div onclick="removePriorityButton()">Remove button</div>
 		</div>
 
 		<div id="zoneMenu">

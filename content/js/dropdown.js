@@ -186,9 +186,25 @@ function togglePeek( doSend=true ){
 	}
 }
 
+// Prioritybuttons ---
+
+var cPButton = -1;
+function removePriorityButton( doSend=true ){
+	let ele = document.getElementById("pbutton" + cPButton);
+	if(ele == null) return;
+	ele.parentNode.removeChild(ele);
+
+	if(!doSend) return;
+
+	send({
+		'type': 'REMPRIORITYBUTTON',
+		'id': cPButton
+	});
+}
+
 // Zones ---
 
-cZone = -1;
+var cZone = -1;
 
 function removeZone( doSend=true ){
 	let ele = document.getElementById("zones" + cZone);

@@ -111,6 +111,11 @@ body {
 	to { border-color: #FFFFFF; }
 }
 
+@keyframes PileAction2 {
+	from { border-color: #BB00BB; }
+	to { border-color: #FFFFFF; }
+}
+
 @keyframes PileShuffle {
 	0% { border-color: #FFFFFF; }
 	50% {

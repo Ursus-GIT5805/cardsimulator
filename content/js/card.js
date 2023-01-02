@@ -47,7 +47,8 @@ class Pile {
 
 		if(openP == this.id) pushToBrowser( cardID, this.id, top );
 		this.updateIMG();
-		this.setAnimation( "PileAction" );
+		if(top) this.setAnimation( "PileAction" );
+		else this.setAnimation( "PileAction2" );
 	}
 	
 	take( top=true ){

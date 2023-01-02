@@ -245,7 +245,7 @@ body {
 	transform: translateX(-50%);
 }
 
-#browserNum {
+.BrowserInfo {
 	position: absolute;
 
 	left: 0;

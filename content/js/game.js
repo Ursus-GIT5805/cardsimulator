@@ -105,7 +105,7 @@ function createCard( cardID, container ){
 		if(e.target.id != ele.id + "img") return;
 
 		cCard = cardID;
-		if( ele.style.transform == "rotate(90deg)" ) rotate(-90);
+		if( ele.style.transform == "rotate(90deg)" || ele.style.transform == "rotate(270deg)" ) rotate(-90);
 		else rotate(90);
 	}
 
@@ -188,10 +188,7 @@ function createDisplayCard( cardID, container, top=true ){
 			'id': cardID,
 			'pile': -1
 		});
-		send({
-			'type': 'HANDSIZE',
-			'size': document.getElementById(container).children.length
-		});
+		updateHandsize();
 	}
 	
 	ele.oncontextmenu = function(e){
@@ -209,12 +206,7 @@ function createDisplayCard( cardID, container, top=true ){
 	else document.getElementById( container ).prepend( ele );
 	setHoverZoom( ele.id );
 
-	if(container == "handcontainer"){
-		send({
-			'type': 'HANDSIZE',
-			'size': document.getElementById(container).children.length
-		});
-	}
+	if(container == "handcontainer") updateHandsize();
 }
 
 var counter = 0;

@@ -1,9 +1,18 @@
 function toggleHand(){
-	let ele = document.getElementById("handcontainer");
-	if(ele == null) return;
-	
-	if( ele.style.display == "block" ) ele.style.display = "none";
-	else ele.style.display = "block";
+	let hand = document.getElementById("handcontainer");
+	let num = document.getElementById("handNum");
+
+	num.style.display  = ["none", "block"][+(hand.style.display != "block")]
+	hand.style.display = ["none", "block"][+(hand.style.display != "block")]
+}
+
+function updateHandsize(){
+	let handsize = document.getElementById("handcontainer").children.length;
+	document.getElementById("handNum").innerHTML = "Cards: " + handsize;
+	send({
+		'type': 'HANDSIZE',
+		'size': handsize
+	});
 }
 
 document.getElementById("hand").ondrop = function(e){

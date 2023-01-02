@@ -210,20 +210,24 @@ function createDisplayCard( cardID, container, top=true ){
 }
 
 var counter = 0;
-function createCounter( container, doSend=true ){
+function createCounter( container, content="", doSend=true ){
 	let ele = document.createElement('textarea');
 	ele.id = "count" + counter++;
 	ele.classList.add( "Counter" );
 
+	ele.value = content;
 	ele.placeholder = "Enter some Text";
 
 	ele.onkeydown = function(e){
-		if( e.ctrlKey && (e.which == 88 || e.which == 46) ){
+		if( !e.ctrlKey ) return;
+		if( e.which == 88 || e.which == 46 ){
 			ele.parentNode.removeChild(ele);
 			send({
 				'type': 'REMCOUNTER',
 				'id': ele.id
 			});
+		} else if( e.which == 67 ){
+			createCounter("table", ele.value);
 		}
 	}
 
@@ -254,7 +258,8 @@ function createCounter( container, doSend=true ){
 	if( !doSend ) return;
 
 	send({
-		'type': 'COUNTER'
+		'type': 'COUNTER',
+		'content': content
 	});
 	send({
 		'type': 'MOVE',

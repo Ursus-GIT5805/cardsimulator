@@ -37,7 +37,7 @@ function fRESIZE(data){
 }
 
 function fCOUNTER(data){
-    createCounter( "table", false );
+    createCounter( "table", data['content'], doSend=false );
 }
 
 function fREMCOUNTER(data){

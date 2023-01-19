@@ -32,6 +32,7 @@ function draw(){
 
 	let c = piles[ cPile ].take();
 	
+	displayActiontip("pile" + cPile, "Draw");
 	createDisplayCard( c, "handcontainer" );
 	closeBrowser();
 	
@@ -54,11 +55,14 @@ function draw(){
 function search(){
 	if( cPile == -1 ) return;
 	
+	displayActiontip("pile" + cPile, "Search");
 	openPile( cPile );
 }
 
 function shuffle(){
 	if( cPile == -1 ) return;
+
+	displayActiontip("pile" + cPile, "Shuffle");
 
 	for (let i = piles[cPile].cards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -78,6 +82,8 @@ function shuffle(){
 
 function playCard( fromTop=true ){
 	if( cPile == -1 ) return;
+
+	displayActiontip("pile" + cPile, "Play " + ["bottom", "top"][+fromTop]);
 
 	let top = piles[ cPile ].take( fromTop );
 	createCard( top, "table" );

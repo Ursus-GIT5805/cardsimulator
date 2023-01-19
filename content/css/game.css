@@ -579,3 +579,31 @@ body {
 	background-color: #000000;
 	z-index: 1;
 }
+
+#actiontip {
+	position: absolute;
+	display: none;
+
+	height: min-content;
+	white-space: nowrap;
+
+	padding: 0.5rem;
+	border-radius: 0.125rem;
+
+	transform: translateX(-50%) translateY(-50%);
+	pointer-events: none;
+
+	animation-name: ActiontipAnimation;
+	animation-duration: 2500ms;
+
+	color: #FFFFFF;
+	background-color: #222222DD;
+	z-index: 1;
+}
+
+@keyframes ActiontipAnimation {
+	0% { background-color: #FFFFFF; }
+	5% { background-color: #222222DD;  }
+	80% { opacity: 100%; }
+	100% { opacity: 0%; }
+}

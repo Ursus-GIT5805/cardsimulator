@@ -66,7 +66,7 @@ function setHoverZoom( ele_id ){
 		
 		if( !(e.pageX < box.left || box.right < e.pageX || e.pageY < box.top || box.bottom < e.pageY) ){
 			img.style.left = "";
-			img.style.right = "0px";			
+			img.style.right = "0px";
 		}
 	}
 	
@@ -759,6 +759,40 @@ document.getElementById("selcards").oncontextmenu = function(e){
 	e.stopPropagation();
 	displayBox( "selMenu", e );
 	return false;
+}
+
+function displayActiontip( ele_id, info, fromEnemy=false ){
+	if(!fromEnemy){
+		send({
+			'type': 'ACTIONTIP',
+			'ele_id': ele_id,
+			'info': info
+		});
+		return;
+	}
+
+	let tip = document.getElementById("actiontip");
+	let box = document.getElementById( ele_id ).getBoundingClientRect();
+
+	let dw = document.documentElement.clientWidth;
+	let dh = document.documentElement.clientHeight;
+
+	tip.style.left = (box.left + (box.right - box.left)/2) / dw * 100 + "%";
+	tip.style.top = (box.top + (box.bottom - box.top)/2) / dh   * 100  + "%";
+	let text = document.createTextNode(info);
+	tip.innerHTML = "";
+	tip.appendChild(text);
+
+	tip.style.display = "block";
+	tip.style.animationName = "none";
+	setTimeout(function(){
+		tip.style.animationName = "ActiontipAnimation";
+	}, 0);
+}
+
+document.getElementById("actiontip").onanimationend = function(e){
+	document.getElementById("actiontip").style.animationName = "none";
+	document.getElementById("actiontip").style.display = "none";
 }
 
 function openChat(open){

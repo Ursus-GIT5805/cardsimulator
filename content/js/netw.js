@@ -145,7 +145,10 @@ function fREMPINS( data ){
 
 function fHANDSIZE( data ){
     document.getElementById("Ecardnum").innerHTML = data['size'];
-    document.getElementById("enemyInfo").style.animationName = "CardNumChange";
+    document.getElementById("enemyInfo").style.animationName = "";
+    setTimeout(function(){
+        document.getElementById("enemyInfo").style.animationName = "CardNumChange";
+    },0);
 }
 
 function fOPENPILE( data ){
@@ -199,6 +202,10 @@ function fTOGGLEPRIORITY( data ){
 function fREMPRIORITYBUTTON( data ){
     cPButton = data['id'];
     removePriorityButton(false);
+}
+
+function fACTIONTIP( data ){
+    displayActiontip(data['ele_id'], data['info'], true);
 }
 
 // ---

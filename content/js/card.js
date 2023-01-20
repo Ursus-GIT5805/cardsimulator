@@ -132,7 +132,7 @@ class Pile {
 						'id': id
 					});
 				}
-				displayActiontip("pile" + ID, "Push to " + ["top", "bottom"][+e.shiftKey]);
+				displayActiontip("pile" + ID, "Push to " + ["top", "bottom"][+e.shiftKey], false, true);
 				sel.innerHTML = "";
 			}
 			if( parseID( dropID ) < 0 ) return;
@@ -150,7 +150,7 @@ class Pile {
 			for(let i = 0 ; i < cs.length ; ++i) piles[ ID ].push( cs[i], onTop );
 
 			removeCard( cs[0] );
-			displayActiontip("pile" + ID, "Push to " + ["top", "bottom"][+e.shiftKey]);
+			displayActiontip("pile" + ID, "Push to " + ["top", "bottom"][+e.shiftKey], false, true);
 		}
 
 		ele.oncontextmenu = function(e){

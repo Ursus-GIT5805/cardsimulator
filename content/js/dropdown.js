@@ -253,7 +253,7 @@ function selShuffle(){
 			'parent': 'table'
 		});
 	}
-	displayActiontip(sel.children[0].id, "Shuffled");
+	displayActiontip(sel.children[0].id, "Shuffled", false, true);
 }
 
 // For each cards which got selected run a function

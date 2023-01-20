@@ -761,14 +761,14 @@ document.getElementById("selcards").oncontextmenu = function(e){
 	return false;
 }
 
-function displayActiontip( ele_id, info, fromEnemy=false ){
+function displayActiontip( ele_id, info, fromEnemy=false, display=false ){
 	if(!fromEnemy){
 		send({
 			'type': 'ACTIONTIP',
 			'ele_id': ele_id,
 			'info': info
 		});
-		return;
+		if(!display) return;
 	}
 
 	let tip = document.getElementById("actiontip");

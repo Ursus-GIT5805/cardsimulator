@@ -69,8 +69,8 @@ function createCard( src, container, num=1 ){
 		if( 2 < ele.children.length ) return;
 		let id = e.dataTransfer.getData("dragID");
 
-		let dEle = document.getElementById(id)
-		let num = parseInt( dEle.children[1].children[1].innerHTML );
+		let dEle = document.getElementById(id);
+		let num = countCards( id );
 
 		carCount[ getCar(dEle) ] -= num;
 		carCount[ getCar(ele) ] += num;
@@ -128,6 +128,13 @@ function toggleCBack(){
 	ele.style.display = ["none", "block"][ +(ele.style.display != "block") ];
 }
 
+function countCards( ele_id ){
+	let ele = document.getElementById(ele_id);
+	if( ele.children.length > 2 )
+		return parseInt( ele.children[1].children[1].innerHTML ) + countCards( ele.children[2].id );
+	return parseInt( ele.children[1].children[1].innerHTML );
+}
+
 document.getElementById("urlBack").onkeyup = function(e){
 	document.getElementById("showBack").src = document.getElementById("urlBack").value;
 }
@@ -167,7 +174,7 @@ window.onload = function(e){
 		ele.ondrop = function(e){
 			let id = e.dataTransfer.getData("dragID");
 			let dEle = document.getElementById(id)
-			let num = parseInt( dEle.children[1].children[1].innerHTML );
+			let num = countCards( id );
 
 			carCount[ getCar(dEle) ] -= num;
 			carCount[ getCar(ele) ] += num;

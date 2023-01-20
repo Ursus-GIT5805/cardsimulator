@@ -11,6 +11,14 @@ function SRGBtoHEX(s){
     return "#" + (1 << 24 | v[0] << 16 | v[1] << 8 | v[2]).toString(16).slice(1);
 }
 
+function shuffleArray(a){
+	for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
 const compressStr = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 function compressPeerID(id){

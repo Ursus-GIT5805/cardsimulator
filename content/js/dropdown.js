@@ -64,10 +64,7 @@ function shuffle(){
 
 	displayActiontip("pile" + cPile, "Shuffle");
 
-	for (let i = piles[cPile].cards.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [piles[cPile].cards[i], piles[cPile].cards[j]] = [piles[cPile].cards[j], piles[cPile].cards[i]];
-    }
+    piles[cPile].cards = shuffleArray( piles[cPile].cards );
     if(openP == cPile) openPile(openP);
 
     piles[ cPile ].updateIMG();
@@ -226,6 +223,38 @@ function removeZone( doSend=true ){
 }
 
 // ---
+
+// Shuffles selected cards
+function selShuffle(){
+	let sel = document.getElementById("selcards");
+	let table = document.getElementById("table");
+
+	let cords = [];
+	for(let i = 0 ; i < sel.children.length ; ++i)
+		cords.push( [sel.children[i].style.left, sel.children[i].style.top] );
+	cords = shuffleArray( cords );
+
+	for(let i = 0 ; i < sel.children.length ; ++i){
+		let ele = sel.children[i];
+
+		ele.style.left = cords[i][0];
+		ele.style.top = cords[i][1];
+
+		let ax = (ele.getBoundingClientRect().left - table.getBoundingClientRect().left);
+		let ay = (ele.getBoundingClientRect().top - table.getBoundingClientRect().top);
+		let x = ax * 100 / table.clientWidth;
+		let y = ay * 100 / table.clientHeight;
+
+		send({
+			'type': 'MOVE',
+			'left': x,
+			'top': y,
+			'id': ele.id,
+			'parent': 'table'
+		});
+	}
+	displayActiontip(sel.children[0].id, "Shuffled");
+}
 
 // For each cards which got selected run a function
 function selForEach( fun ){

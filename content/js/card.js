@@ -164,9 +164,11 @@ class Pile {
 			let tooltip = document.getElementById("tooltip");
 			tooltip.style.visibility = "visible";
 			tooltip.innerHTML = "Cards: " + piles[ID].cards.length;
+			sendHover("pile" + ID);
 		}
 		ele.onmouseleave = function(e){
 			document.getElementById("tooltip").style.visibility = "hidden";
+			sendHover("",false);
 		}
 
 		ele.ondropover = allowDrop;

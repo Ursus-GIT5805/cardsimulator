@@ -152,6 +152,9 @@ function createCard( cardID, container ){
 		return false;
 	}
 
+	ele.onmouseover = function(e){ sendHover(ele.id); }
+	ele.onmouseout = function(e){ sendHover("",false); }
+
 	let par = document.getElementById( container );
 
 	ele.appendChild(img);
@@ -180,7 +183,16 @@ function createDisplayCard( cardID, container, top=true ){
 		this.src = "img/not_found.svg";
 	}
 
-	ele.onclick = function(e){
+	ele.onmousedown = function(e){
+		if(e.button == 2) return;
+
+		if( e.button == 1 || (e.button == 0 && e.ctrlKey) ){
+			let bef = cCard;
+			cCard = cardID;
+			toggleFacedown();
+			cCard = bef;
+		}
+
 		ele.parentNode.removeChild( ele );
 		createCard( cardID, "table" );
 		send({
@@ -589,7 +601,11 @@ document.getElementById("enemyInfo").onanimationend = function(e){
 window.onkeydown = function(e){
 	if( e.which == 112 ) removePins();
 	if( e.which == 113 ) openChat(true);
-	if( e.which ==  27 ) openChat(false);
+	if( e.which ==  27 ){
+		openChat(false);
+		if(document.getElementById("Utils").style.display == "block")
+			document.getElementById("UtilityToggle").onclick();
+	}
 }
 
 function mergeToTable(ele_id){
@@ -625,6 +641,20 @@ function clearSelected(){
 
 	sel.style.width = "0%";
 	sel.style.height = "0%";
+}
+
+function sendHover( ele_id, hover=true ){
+	if(!hover){
+		send({
+			'type': 'UNHOVER'
+		});
+		return;
+	}
+
+	send({
+		'type': 'HOVER',
+		'ele': ele_id
+	});
 }
 
 let mX = -1, mY = -1;

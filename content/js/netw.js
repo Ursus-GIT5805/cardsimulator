@@ -208,6 +208,18 @@ function fACTIONTIP( data ){
     displayActiontip(data['ele_id'], data['info'], true);
 }
 
+function fHOVER( data ){
+    let ele = document.getElementById("enemyHover");
+    ele.style.display = "block";
+    document.getElementById(data['ele']).appendChild(ele);
+}
+
+function fUNHOVER( data ){
+    let ele = document.getElementById("enemyHover");
+    ele.style.display = "none";
+    document.getElementById("table").appendChild(ele);
+}
+
 // ---
 
 var peer = null;

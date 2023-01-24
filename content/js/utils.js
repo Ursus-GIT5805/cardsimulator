@@ -80,3 +80,13 @@ function encodePeerID(id){
 
     return out;
 }
+
+function goTo( page ){
+    window.history.pushState({}, '', window.location.href);
+    location.replace( WEB_URL + page );
+}
+
+var WEB_URL = "https://" + window.location.hostname + "/";
+if( window.location.protocol == "file:" ){
+    WEB_URL = "file://" + window.location.pathname.substr( 0, window.location.pathname.lastIndexOf("/content/")+9 );
+}

@@ -657,6 +657,34 @@ function sendHover( ele_id, hover=true ){
 	});
 }
 
+function reset(){
+	let toSave = ["selcards", "enemyHover"];
+	let saves = [];
+
+	document.getElementById("selcards").innerHTML = "";
+
+	for(let i = 0 ; i < toSave.length ; ++i)
+		saves.push( document.getElementById(toSave[i]) );
+	document.getElementById("table").innerHTML = "";
+	for(let i = 0 ; i < toSave.length ; ++i)
+		document.getElementById("table").appendChild( saves[i] );
+
+	document.getElementById("handcontainer").innerHTML = "";
+	document.getElementById("Ecardnum").innerHTML = "0";
+	document.getElementById("handNum").innerHTML = "Cards: 0";
+	closeBrowser();
+
+	piles = [];
+	cardsPile = [];
+	prbuttons = 0;
+	zone = 0;
+	counter = 0;
+	nCardPos = 0;
+
+	removePins(false);
+	createDecks();
+}
+
 let mX = -1, mY = -1;
 window.onmousedown = function(e){
 	let b = document.getElementById("contextMenu").contains( e.target );

@@ -220,6 +220,55 @@ function fUNHOVER( data ){
     document.getElementById("table").appendChild(ele);
 }
 
+// Offering ---
+
+let curOffer = "";
+function fOFFER( data ){
+    document.getElementById("offerWait").style.display = "none";
+
+    let name = data['name'];
+
+    if(name == 'ACCEPT') accept( curOffer, false );
+    else if(name == 'DECLINE') curOffer = "";
+    else {
+        let action = "";
+
+        if(name == "RESET") action = "reset the board"
+
+        const response = confirm("Your opponent offers to " + action + ". Accept?");
+        if(response) accept( name );
+        else {
+            send({
+                'type': 'OFFER',
+                'name': 'DECLINE'
+            });
+        }
+    }
+}
+
+function accept( name, doSend=true ){
+    if(doSend){
+        send({
+            'type': 'OFFER',
+            'name': 'ACCEPT'
+        });
+    }
+
+    if(name == 'RESET') reset();
+    curOffer = "";
+}
+
+function offer( name ){
+    curOffer = name;
+    send({
+       'type': 'OFFER',
+       'name': name
+    });
+
+    document.getElementById("offerWait").style.display = "block";
+}
+
+
 // ---
 
 var peer = null;
@@ -258,7 +307,7 @@ function addDeck(deck, side, back, id){
     }
     img.src = back;
 
-    if( decks[0].length > 0 && decks[1].length > 0 ) createDecks();
+    if( decks[0].length > 0 && decks[1].length > 0 ) reset();
 }
 
 function createDecks(){
@@ -331,7 +380,6 @@ function connect(){
         console.log("Connected to other player!")
         sendDeck( 1 );
         setEvents();
-        removePins();
         document.getElementById("enemyInfo").style.display = "block";
         document.getElementById("Utility").style.display = "block";
     });
@@ -348,7 +396,6 @@ function initPeer(){
     peer.on('connection', function(c){
         if(conn != null) return;
 
-        removePins();
         document.getElementById("startWindow").style.display = "none";
         document.getElementById("Utility").style.display = "block";
         document.getElementById("enemyInfo").style.display = "block";

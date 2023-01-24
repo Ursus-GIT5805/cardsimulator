@@ -1,6 +1,5 @@
 var cards = [];
 var piles = [];
-
 var cardsPile = [];
 
 class Card {

@@ -7,6 +7,7 @@
 	<body>
 		<div id="table">
 			<div id="selcards" draggable="true"></div>
+			<div id="enemyHover"></div>
 		</div>
 
 		<div class="BrowserWindow" style="bottom: 20%;" id="browser">
@@ -25,7 +26,6 @@
 			<a>Enemy cards: <span id="Ecardnum">0</span></a>
 		</div>
 
-		<div id="enemyHover"></div>
 		<div id="actiontip"></div>
 		<div id="tooltip"></div>
 		<div class="Dropdown" id="contextMenu"></div>
@@ -38,8 +38,13 @@
 				<div onclick="createPriorityButton('table', true)">Create Button</div>
 				<div onclick="createZone('table')">Create Zone</div>
 				<div onclick="toggleRandomWindow()">Random</div>
+				<div onclick="offer('RESET')">Reset board</div>
 				<div onclick="toggleManual()">Manual</div>
 			</a>
+		</div>
+
+		<div id="offerWait">
+			<div>Wait for opponent...</div>
 		</div>
 
 		<div id="chatContainer">

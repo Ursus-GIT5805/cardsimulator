@@ -126,7 +126,7 @@ function rotate( degress, doSend=true ){
 	let t = ele.style.transform;
 	if(t != "") deg = parseInt( t.substring(7, t.indexOf("deg")) );
 
-	deg = (deg+degress) % 360;
+	deg = (deg+(degress % 360)+360) % 360;
 	ele.style.transform = "rotate(" + deg + "deg)";
 
 	if(doSend){

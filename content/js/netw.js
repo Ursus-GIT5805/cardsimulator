@@ -316,7 +316,7 @@ function addDeck(deck, side, back, ownDeck=false ){
 
         piles.push( new Pile( j == 0 ) );
         if(ownDeck) document.getElementById("pile" + (piles.length-1)).style.top = "50%";
-        document.getElementById("pile" + (piles.length-1)).style.left = "0";
+        document.getElementById("pile" + (piles.length-1)).style.left = (20*j) + "%";
 
         let size = 0;
         for(let key in clist){

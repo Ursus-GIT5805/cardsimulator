@@ -13,12 +13,17 @@ function setMovable( ele_id ){
 	ele.ondragstart = function(e){
 		e.stopPropagation();
 
+		let bef = ele.style.transform;
+		ele.style.transform = "";
+
 		const x = (e.clientX - ele.getBoundingClientRect().left );
 		const y = (e.clientY - ele.getBoundingClientRect().top  ); 
 
 		e.dataTransfer.setData("dragID", ele.id);
 		e.dataTransfer.setData("dragX", x);
 		e.dataTransfer.setData("dragY", y);
+
+		ele.style.transform = bef;
 
 		document.getElementById("showCard").style.display = "none";
 	}
@@ -234,13 +239,13 @@ function createCounter( container, content="", doSend=true ){
 
 	ele.onkeydown = function(e){
 		if( !e.ctrlKey ) return;
-		if( e.which == 88 || e.which == 46 ){
+		if( e.which == 46 ){
 			ele.parentNode.removeChild(ele);
 			send({
 				'type': 'REMCOUNTER',
 				'id': ele.id
 			});
-		} else if( e.which == 67 ){
+		} else if( e.which == 45 ){
 			createCounter("table", ele.value);
 		}
 	}
@@ -254,8 +259,8 @@ function createCounter( container, content="", doSend=true ){
 	}
 
 	ele.onmouseup = function(e){
-		ele.style.width = ele.clientWidth*100 / ele.parentNode.clientWidth + "%";
-		ele.style.height = ele.clientHeight*100 / ele.parentNode.clientHeight + "%";
+		ele.style.width = Math.min(ele.clientWidth*100 / ele.parentNode.clientWidth, 100) + "%";
+		ele.style.height = Math.min(ele.clientHeight*100 / ele.parentNode.clientHeight, 100) + "%";
 
 		send({
 			'type': 'RESIZE',

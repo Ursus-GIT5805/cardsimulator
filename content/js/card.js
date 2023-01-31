@@ -114,7 +114,6 @@ class Pile {
 
 			let dropID = e.dataTransfer.getData("dragID");
 
-			if( ele.id == dropID ) return;
 			if( dropID == "selcards" ){
 				let sel = document.getElementById("selcards");
 
@@ -134,7 +133,10 @@ class Pile {
 				displayActiontip("pile" + ID, "Push to " + ["top", "bottom"][+e.shiftKey], false, true);
 				sel.innerHTML = "";
 			}
-			if( parseID( dropID ) < 0 ) return;
+			if( parseID( dropID ) < 0 || ele.id == dropID ){
+				document.getElementById("table").ondrop(e);
+				return;
+			}
 
 			let onTop = !e.shiftKey;
 
@@ -252,7 +254,7 @@ function pushToBrowser( cardID, pileID, top=true ){
 
 	let ele = document.getElementById( "c" + cardID + "img" );
 
-	ele.onclick = function(e){
+	ele.onmousedown = function(e){
 		send({
 			'type': 'PLAY',
 			'id': cardID,

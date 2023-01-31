@@ -116,8 +116,10 @@ function createCard( cardID, container ){
 		let box = ele.getBoundingClientRect();
 		
 		let cr = document.getElementById( e.dataTransfer.getData("dragID") );
-		if(cr.id == ele.id) return;
-		if( cr.id[0] != 'c' ) return;
+		if( cr.id == ele.id || cr.id[0] != 'c' ){
+			ele.parentNode.ondrop(e);
+			return;
+		}
 
 		let x = e.pageX - box.left - e.dataTransfer.getData("dragX");
 		let y = e.pageY - box.top  - e.dataTransfer.getData("dragY");
@@ -658,7 +660,7 @@ function sendHover( ele_id, hover=true ){
 }
 
 function reset(){
-	let toSave = ["selcards", "enemyHover"];
+	let toSave = ["selcards"];
 	let saves = [];
 
 	document.getElementById("selcards").innerHTML = "";
@@ -666,8 +668,10 @@ function reset(){
 	for(let i = 0 ; i < toSave.length ; ++i)
 		saves.push( document.getElementById(toSave[i]) );
 	document.getElementById("table").innerHTML = "";
-	for(let i = 0 ; i < toSave.length ; ++i)
+	for(let i = 0 ; i < toSave.length ; ++i){
+		if( saves[i] == null ) continue;
 		document.getElementById("table").appendChild( saves[i] );
+	}
 
 	document.getElementById("handcontainer").innerHTML = "";
 	document.getElementById("Ecardnum").innerHTML = "0";
@@ -682,7 +686,17 @@ function reset(){
 	nCardPos = 0;
 
 	removePins(false);
-	createDecks();
+
+	let p = 0;
+	for(let i = 0 ; i < decksizes.length ; ++i){
+        piles.push( new Pile( ((i%2) == 0) ) );
+
+		document.getElementById("pile" + (piles.length-1)).style.left = (100/decksizes.length*i) + "%";
+		for(let j = 0 ; j < decksizes[i] ; ++j){
+			piles[ piles.length-1 ].push( p );
+			cardsPile[p++] = piles.length-1;
+		}
+	}
 }
 
 let mX = -1, mY = -1;

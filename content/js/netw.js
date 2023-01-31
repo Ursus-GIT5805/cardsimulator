@@ -1,6 +1,6 @@
-var playerID = -1;
-var decks = [ [], [] ];
-var backs = [ "", "" ];
+var decks = 0; // number of decks
+var decksizes = [];
+var backs = [];
 
 function fMOVE(data){
     let ele = document.getElementById( data['id'] );
@@ -56,7 +56,7 @@ function fPILE(data){
 }
 
 function fDECK( data ){
-    addDeck( data['deck'], data['side'], data['back'], data['id'] );
+    addDeck( data['deck'], data['side'], data['back'] );
 
     if( data['id'] == 1 ) sendDeck(0);
 }
@@ -210,14 +210,18 @@ function fACTIONTIP( data ){
 
 function fHOVER( data ){
     let ele = document.getElementById("enemyHover");
+    if(ele == null){
+        ele = document.createElement('div');
+        ele.id = "enemyHover";
+    }
     ele.style.display = "block";
     document.getElementById(data['ele']).appendChild(ele);
 }
 
 function fUNHOVER( data ){
     let ele = document.getElementById("enemyHover");
+    if(ele == null) return;
     ele.style.display = "none";
-    document.getElementById("table").appendChild(ele);
 }
 
 // Offering ---
@@ -274,72 +278,59 @@ function offer( name ){
 var peer = null;
 var conn = null;
 
-function sendDeck( id ){
+function sendDeck(){
     let doc = document.getElementById("deckinput").files[0];
     if(doc == null) return;
 
     let reader = new FileReader();
     reader.readAsText(doc);
 
-    const ID = id;
-
     reader.onload = function(e){
         let s = JSON.parse( e.target.result );
-        addDeck( s['deck'], s['side'], s['back'], ID );
+        addDeck( s['deck'], s['side'], s['back'], true );
         send({
            'type': 'DECK',
            'deck': s['deck'],
            'side': s['side'],
-           'back': s['back'],
-           'id': ID
+           'back': s['back']
         });
     }
 }
 
-function addDeck(deck, side, back, id){
-    decks[id] = [ deck, side ];
-    backs[id] = back;
+function addDeck(deck, side, back, ownDeck=false ){
+    backs.push( back );
 
     let img = new Image();
     img.onerror = function(e){
-        backs[id] = "img/not_found.svg";
+        backs[ backs.length-1 ] = "img/not_found.svg";
         for(let i = 0 ; i < piles.length ; ++i) piles[i].updateIMG();
     }
     img.src = back;
 
-    if( decks[0].length > 0 && decks[1].length > 0 ) reset();
-}
+    if( decks == 0 ) reset();
 
-function createDecks(){
-    let decksizes = [];
+    let p = cards.length;
+    for(let j = 0 ; j < 2 ; ++j){
+        let clist = deck;
+        if(j == 1) clist = side;
 
-    for(let d = 0 ; d < decks.length ; ++d){
-        decksizes.push([0, 0]);
+        piles.push( new Pile( j == 0 ) );
+        if(ownDeck) document.getElementById("pile" + (piles.length-1)).style.top = "50%";
+        document.getElementById("pile" + (piles.length-1)).style.left = "0";
 
-        for(let j = 0 ; j < 2 ; ++j){
-            for(let key in decks[d][j]){
-                for(let i = 0 ; i < decks[d][j][key] ; ++i) cards.push( new Card(key, d) );
-                decksizes[d][j] += decks[d][j][key];
+        let size = 0;
+        for(let key in clist){
+            for(let i = 0 ; i < clist[key] ; ++i){
+                cards.push( new Card(key, decks) );
+                cardsPile.push( piles.length-1 );
+                piles[ piles.length-1 ].push( p++ );
             }
+            size += clist[key];
         }
+        decksizes.push( size );
     }
 
-    let p = 0;
-    for(let i = 0 ; i < decks.length ; ++i){
-        piles.push( new Pile( true ) );
-        document.getElementById("pile" + (2*i)).style.left = (50/decks.length/2)*(2*i) + "%";
-        for(let j = 0 ; j < decksizes[i][0]; ++j){
-            cardsPile.push( piles.length-1 );
-            piles[ piles.length-1 ].push( p++ );
-        }
-
-        piles.push( new Pile() );
-        document.getElementById("pile" + (2*i+1)).style.left = (50/decks.length/2)*(2*i+1) + "%";
-        for(let j = 0 ; j < decksizes[i][1] ; ++j){
-            cardsPile.push( piles.length-1 );
-            piles[ piles.length-1 ].push( p++ );
-        }
-    }
+    if(decks++ == 0 && !ownDeck) sendDeck();
 }
 
 function startConnection(){
@@ -375,10 +366,8 @@ function connect(){
     });
 
     conn.on('open', function(){
-        playerID = 1;
-
         console.log("Connected to other player!")
-        sendDeck( 1 );
+        sendDeck();
         setEvents();
         document.getElementById("enemyInfo").style.display = "block";
         document.getElementById("Utility").style.display = "block";
@@ -390,7 +379,6 @@ function initPeer(){
 
     peer.on('open', function(id){
         console.log("Peer open...");
-        playerID = 0;
     });
 
     peer.on('connection', function(c){

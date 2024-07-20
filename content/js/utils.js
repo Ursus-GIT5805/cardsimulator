@@ -86,6 +86,11 @@ function goTo( page ){
     location.replace( WEB_URL + page );
 }
 
+function gotoRepo() {
+    window.history.pushState({}, '', window.location.href);
+    location.replace("https://github.com/Ursus-GIT5805/cardsimulator");
+}
+
 var WEB_URL = "https://" + window.location.hostname + "/";
 if( window.location.protocol == "file:" ){
     WEB_URL = "file://" + window.location.pathname.substr( 0, window.location.pathname.lastIndexOf("/content/")+9 );

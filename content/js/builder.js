@@ -94,18 +94,34 @@ function createCard( src, container, num=1 ){
 
 	carCount[ getCar(ele) ] += num;
 	updateCarCount();
+	return ele;
 }
 
 function setCards( deck, side, back ){
 	document.getElementById("car0").innerHTML = "";
 	document.getElementById("car1").innerHTML = "";
 	for(let i = 0 ; i < carCount.length ; ++i) carCount[i] = 0;
-	for( let k in deck ) createCard( k, "car0", deck[k] );
-	for( let k in side ) createCard( k, "car1", side[k] );
+	for( let k in deck ) loadCardsAndGroups( k, deck[k], "car0" );
+	for( let k in side ) loadCardsAndGroups( k, side[k], "car1" );
 
 	document.getElementById("urlBack").value = back;
 	document.getElementById("showBack").src = document.getElementById("urlBack").value;
 	updateCarCount();
+}
+
+function loadCardsAndGroups( key, value, containerId ){
+	if(key.startsWith("group")){
+		let lastCardOfGroup = null;
+	    for( let k in value ){
+			let createdCard = createCard( k, containerId, value[k]);
+			if(lastCardOfGroup != null){
+				lastCardOfGroup.appendChild(createdCard);
+			}
+			lastCardOfGroup = createdCard;
+		}
+	} else {
+		createCard(key, containerId, value);
+	}
 }
 
 function updateCarCount(){

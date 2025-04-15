@@ -10,7 +10,11 @@ function saveDeck(){
     let back = document.getElementById("urlBack").value;
 
     let el = document.getElementById("car0");
-    for( let i = 0 ; i < el.children.length ; i++ ) getCards( el.children[i], deck );
+    for( let i = 0 ; i < el.children.length ; i++ ){
+        let group = {};
+        getCards( el.children[i], group );
+        deck["group" + i] = group;
+    }
 
     el = document.getElementById("car1");
     for( let i = 0 ; i < el.children.length ; i++ ) getCards( el.children[i], side );

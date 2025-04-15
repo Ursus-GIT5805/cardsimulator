@@ -2,4 +2,4 @@
 
 ---
 
-A cardsimulator for all kinds of **2 player** cardgame.
+A cardsimulator for all kinds of **2 player** cardgames.

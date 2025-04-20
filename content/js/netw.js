@@ -287,6 +287,7 @@ function sendDeck(){
 
     reader.onload = function(e){
         let s = JSON.parse( e.target.result );
+        s = dissolveGroups(s);
         addDeck( s['deck'], s['side'], s['back'], true );
         send({
            'type': 'DECK',

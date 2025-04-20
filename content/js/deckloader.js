@@ -25,7 +25,6 @@ function saveDeck(){
         'side': side
     };
 
-    console.log(back);
     console.log(out);
 
     let data = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(out));
@@ -52,4 +51,27 @@ function loadDeck( handler ){
     }
 
     inp.click();
+}
+
+function dissolveGroups( deck ){
+    let result = {'back':deck['back'], 'deck':{}, 'side':{}};
+	for( let k in deck['deck'] ){
+        addGroupOrCardToDeck(k, deck['deck'][k], result['deck']);
+    }
+	for( let k in deck['side'] ){
+        addGroupOrCardToDeck(k, deck['side'][k], result['side']);
+    }
+    return result;
+}
+
+function addGroupOrCardToDeck( sourceKey, sourceValue, targetDictionary ){
+        if(sourceKey.startsWith("group")){
+            for( let c in sourceValue ){
+                if( targetDictionary[c] == null ) targetDictionary[c] = 0;
+                targetDictionary[c] += sourceValue[c];
+                console.log(targetDictionary);
+            }
+        } else {
+            targetDictionary[sourceKey] = sourceValue;
+        }
 }
